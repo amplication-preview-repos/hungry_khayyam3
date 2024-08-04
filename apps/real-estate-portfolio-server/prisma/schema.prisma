@@ -1,0 +1,73 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DB_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Services {
+  createdAt   DateTime @default(now())
+  description String?
+  id          String   @id @default(cuid())
+  serviceName String?
+  updatedAt   DateTime @updatedAt
+}
+
+model Projects {
+  caseStudiesItems CaseStudies[]
+  clientType       EnumProjectsClientType?
+  createdAt        DateTime                @default(now())
+  description      String?
+  id               String                  @id @default(cuid())
+  keyFeatures      String?
+  results          String?
+  screenshots      Json?
+  title            String?
+  updatedAt        DateTime                @updatedAt
+}
+
+model Testimonials {
+  clientName      String?
+  createdAt       DateTime @default(now())
+  id              String   @id @default(cuid())
+  testimonialText String?
+  updatedAt       DateTime @updatedAt
+  videoUrl        String?
+}
+
+model BlogPosts {
+  author        String?
+  content       String?
+  createdAt     DateTime  @default(now())
+  id            String    @id @default(cuid())
+  publishedDate DateTime?
+  title         String?
+  updatedAt     DateTime  @updatedAt
+}
+
+model CaseStudies {
+  challenges String?
+  createdAt  DateTime  @default(now())
+  id         String    @id @default(cuid())
+  outcomes   String?
+  project    Projects? @relation(fields: [projectId], references: [id])
+  projectId  String?
+  solutions  String?
+  title      String?
+  updatedAt  DateTime  @updatedAt
+}
+
+model ContactInquiries {
+  createdAt DateTime @default(now())
+  email     String?
+  id        String   @id @default(cuid())
+  message   String?
+  name      String?
+  updatedAt DateTime @updatedAt
+}
+
+enum EnumProjectsClientType {
+  Option1
+}
